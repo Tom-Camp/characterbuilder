@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import types
 
 class CreateCharacter:
 
@@ -21,6 +22,25 @@ class CreateCharacter:
                 self.input_list(field_name, value)
             else:
                 self.input_integer(field_name, value)
+        self.confirm()
+
+    def confirm(self):
+        self.add_header()
+        try:
+            self.accept = str(input("(A)ccept, (R)edo, (C)ancel: "))
+        except TypeError as e:
+            self.error = e
+            self.confirm()
+        else:
+            if self.accept.upper == 'A':
+                print("accept")
+            elif self.accept.upper == 'R':
+                print('redo')
+            elif self.accept.upper == 'C':
+                print('cancel')
+            else:
+                pass
+
 
     def input_text(self, name, field):
         self.add_header()
@@ -53,7 +73,7 @@ class CreateCharacter:
     def input_integer(self, name, field):
         self.add_header()
         try:
-            self.character[name] = int(input("{}: ".format(name)))
+            self.character[name] = int(input("{}: ".format(name).capitalize()))
         except TypeError as e:
             self.error = e
             self.input_integer(name, field)
@@ -62,17 +82,18 @@ class CreateCharacter:
         os.system('cls' if  os.name == 'nt' else 'clear')
         if self.error is not None:
             print("Input error: {}".format(self.error))
-            del self.error
+            self.error = None
         self.print_character()
 
     def print_character(self):
         print("Character:")
         print("[")
         for key, value in self.character.items():
-            print("  {}: {}".format(key.capitalize(), value.capitalize()))
+            print("  {}: {}".format(key.capitalize(), value))
         print("]\n")
 
-
+    def create_character(self):
+        print('Creating')
 
     def assign_classes(self):
         self.class_types = [
