@@ -2,6 +2,8 @@
 
 import os
 import types
+import main
+import json
 
 class CreateCharacter:
 
@@ -32,14 +34,15 @@ class CreateCharacter:
             self.error = e
             self.confirm()
         else:
-            if self.accept.upper == 'A':
-                print("accept")
-            elif self.accept.upper == 'R':
-                print('redo')
-            elif self.accept.upper == 'C':
-                print('cancel')
+            if self.accept.upper() == 'A':
+                self.create_character()
+            elif self.accept.upper() == 'R':
+                self.__init__()
+            elif self.accept.upper() == 'C':
+                main.main()
             else:
-                pass
+                self.error = "Illegal choice"
+                self.confirm()
 
 
     def input_text(self, name, field):
@@ -93,7 +96,15 @@ class CreateCharacter:
         print("]\n")
 
     def create_character(self):
-        print('Creating')
+        with open('characters/character_list.json', 'r+') as file:
+            character_list = json.load(file)
+        id = len(character_list) + 1
+        character_list.update({'id': id, 'name': self.character['name']})
+        with open('characters/character_list.json', 'w') as f:
+            json.dump(character_list, f)
+        with open('characters/character-' + str(id) + '.json', 'w+') as c:
+            json.dump(self.character, c)
+
 
     def assign_classes(self):
         self.class_types = [
