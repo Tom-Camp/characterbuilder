@@ -5,6 +5,7 @@ import types
 import main
 import json
 from pathlib import Path
+from character import Character
 
 class CreateCharacter:
 
@@ -113,10 +114,12 @@ class CreateCharacter:
                 id += 1
         character_list.update({id: {'id': id, 'name': self.character['name']}})
         self.character['id'] = id
+        self.character['is_new'] = True
         with open(list_file, 'w+') as file:
             json.dump(character_list, file)
         with open('characters/character-' + str(id) + '.json', 'w+') as c:
             json.dump(self.character, c)
+        Character(id)
 
 
     def assign_classes(self):
