@@ -4,6 +4,7 @@ import os
 import types
 import main
 import json
+from pathlib import Path
 
 class CreateCharacter:
 
@@ -96,12 +97,24 @@ class CreateCharacter:
         print("]\n")
 
     def create_character(self):
-        with open('characters/character_list.json', 'r+') as file:
-            character_list = json.load(file)
-        id = len(character_list) + 1
-        character_list.update({'id': id, 'name': self.character['name']})
-        with open('characters/character_list.json', 'w') as f:
-            json.dump(character_list, f)
+        list_file = Path('characters/character_list.json')
+        if not list_file.is_file():
+            is_new = True
+        else:
+            is_new = False
+
+        if is_new == True:
+            character_list = {}
+            id = 1
+        else:
+            with open(list_file, 'r') as file:
+                character_list = json.load(file)
+                id = int(sorted(character_list.keys())[-1])
+                id += 1
+        character_list.update({id: {'id': id, 'name': self.character['name']}})
+        self.character['id'] = id
+        with open(list_file, 'w+') as file:
+            json.dump(character_list, file)
         with open('characters/character-' + str(id) + '.json', 'w+') as c:
             json.dump(self.character, c)
 
