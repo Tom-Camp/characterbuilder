@@ -117,9 +117,9 @@ class CreateCharacter:
         self.character['id'] = id
         self.character['is_new'] = True
         with open(list_file, 'w+') as file:
-            yaml.dump(character_list, file)
+            yaml.dump(character_list, file, default_flow_style = False)
         with open('characters/character-' + str(id) + '.yaml', 'w+') as character_dict:
-            yaml.dump(self.character, character_dict)
+            yaml.dump(self.character, character_dict, default_flow_style = False)
         Character(id)
 
 
