@@ -10,7 +10,6 @@ class ViewCharacters:
         self.file_path = 'characters/character_list.yaml'
         self.error = None
         self.exists()
-        print(self.file_exists)
         self.show_list()
 
     def exists(self):
@@ -19,8 +18,8 @@ class ViewCharacters:
 
     def show_list(self):
         if self.file_exists is True:
-            self.load_list()
             self.add_header()
+            self.load_list()
         else:
             self.error = "The list files doesn't exist"
 

@@ -14,7 +14,8 @@ class Character:
         self.load()
 
     def exists(self):
-        self.character_exists = Path(self.file_path)
+        file = Path(self.file_path)
+        self.character_exists = file.is_file()
 
     def load(self):
         if self.character_exists == True:
