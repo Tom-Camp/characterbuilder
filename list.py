@@ -1,56 +1,57 @@
 #!/usr/bin/env python3
 
-import json
+import yaml
+import os
 from pathlib import Path
 
-class ViewCharacter:
+class ViewCharacters:
 
     def __init__(self):
-        self.file_path = 'character/character_list.json'
-        self.error = {}
+        self.file_path = 'characters/character_list.yaml'
+        self.error = None
         self.exists()
+        print(self.file_exists)
         self.show_list()
 
     def exists(self):
-        self.file_exists = Path(self.file_path)
+        character_list = Path(self.file_path)
+        self.file_exists = character_list.is_file()
 
     def show_list(self):
         if self.file_exists is True:
             self.load_list()
             self.add_header()
         else:
-            self.error['message'] = "The list files doesn't exist"
-            self.error['action'] = [
-                'create',
-                'main',
-            ]
+            self.error = "The list files doesn't exist"
 
     def load_list(self):
-        with open(self.file_path, 'r') as character_json:
+        with open(self.file_path, 'r') as character_yaml:
             try:
-                self.character = json.loads(character_json)
+                self.characters = yaml.load(character_yaml)
             except ValueError as e:
                 self.error['message'] = e
                 self.error['action'] = None
+            else:
+                self.list()
 
     def list(self):
-        pass
+        for key, value in self.characters.items():
+            print("{}) {}".format(key, value['name']))
 
     def add_header(self):
-        pass
+        os.system('cls' if  os.name == 'nt' else 'clear')
+        print("CHARACTER LIST:")
+        print("---------------")
+        self.show_error()
 
     def show_error(self):
-        if 'message' in self.error.keys():
-            error_length = len(self.error['message'])
+        if self.error is not None:
+            error_length = len(self.error)
             line = '*'
             for _ in range(error_length + 3):
                 line += '*'
             line += '\n'
             print(line)
-            print("* {} *".format(self.error['message']))
+            print("* {} *".format(self.error))
             print(line)
-        if 'action' in self.error.keys():
-            self.error_actions()
 
-    def error_actions(self):
-        pass

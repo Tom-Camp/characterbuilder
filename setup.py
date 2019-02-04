@@ -3,7 +3,9 @@
 from distutils.core import setup
 
 setup(name='characterbuilder',
-    packages=[],
+    packages=[
+        'PyYAML'
+    ],
     version='0.1.0',
     description='Dungeons and Dragons character builder',
     author='Tom Camp',

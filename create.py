@@ -3,7 +3,7 @@
 import os
 import types
 import main
-import json
+import yaml
 from pathlib import Path
 from character import Character
 
@@ -98,7 +98,7 @@ class CreateCharacter:
         print("]\n")
 
     def create_character(self):
-        list_file = Path('characters/character_list.json')
+        list_file = Path('characters/character_list.yaml')
         if not list_file.is_file():
             is_new = True
         else:
@@ -108,17 +108,18 @@ class CreateCharacter:
             character_list = {}
             id = 1
         else:
+            pass
             with open(list_file, 'r') as file:
-                character_list = json.load(file)
-                id = int(sorted(character_list.keys())[-1])
-                id += 1
+                character_list = yaml.load(file)
+            id = int(sorted(character_list.keys())[-1])
+            id += 1
         character_list.update({id: {'id': id, 'name': self.character['name']}})
         self.character['id'] = id
         self.character['is_new'] = True
         with open(list_file, 'w+') as file:
-            json.dump(character_list, file)
-        with open('characters/character-' + str(id) + '.json', 'w+') as c:
-            json.dump(self.character, c)
+            yaml.dump(character_list, file)
+        with open('characters/character-' + str(id) + '.yaml', 'w+') as character_dict:
+            yaml.dump(self.character, character_dict)
         Character(id)
 
 

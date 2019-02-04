@@ -3,12 +3,11 @@
 import os
 import sys
 import create
+import list
 
 class MainMenu:
     _options = [
         'Create character',
-        'Edit character',
-        'Delete character',
         'List all characters',
         'Quit'
     ]
@@ -37,8 +36,8 @@ class MainMenu:
         if self.choice == 1:
             create.CreateCharacter()
         elif self.choice == 2:
-            print("2")
-        elif self.choice == 5:
+            list.ViewCharacters()
+        elif self.choice == 3:
             sys.exit(0)
         else:
             self.error = self.choice
